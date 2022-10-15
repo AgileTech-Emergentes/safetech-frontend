@@ -1,9 +1,12 @@
 import Vue from 'vue'
-import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
+import { ToastPlugin,
+  ModalPlugin,
+  BootstrapVue,
+  BootstrapVueIcons } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 
 import i18n from '@/libs/i18n'
-import router from './router'
+import router from '@/safetech/router'
 import store from './store'
 import App from './App.vue'
 
@@ -26,6 +29,11 @@ import '@/@fake-db/db'
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
+Vue.use(BootstrapVue, {
+  BModal: { headerBgVariant: 'primary', titleClass: 'text-light' },
+  breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+})
+Vue.use(BootstrapVueIcons)
 
 // Composition API
 Vue.use(VueCompositionAPI)
