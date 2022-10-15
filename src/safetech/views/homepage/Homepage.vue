@@ -1,6 +1,6 @@
 <template>
-  <div >
-    <b-row class="d-flex  align-content-center justify-content-center mb-1">
+  <div class="mt-5" >
+    <b-row class="d-flex  align-content-center justify-content-center mb-3 ">
       <b-img
           :src="image"
 
@@ -8,12 +8,15 @@
           class="img-fluid"
       />
     </b-row>
-    <b-row class="d-flex  align-content-center justify-content-center">
-        <span>Todavía no tienes citas.
-      ¿Te gustaría agendar una?</span>
+    <b-row class="d-flex flex-column  align-content-center justify-content-center mb-3">
+
+        <h3 class="text-center">Todavía no tienes citas.</h3>
+
+      <h3 class="text-center">
+      ¿Te gustaría agendar una?</h3>
     </b-row>
     <b-row class="d-flex  align-content-center justify-content-center">
-      <b-button>Agendar una cita</b-button>
+      <b-button variant="primary-safetech">Agendar una cita</b-button>
     </b-row>
 
   </div>
@@ -23,7 +26,7 @@
 export default {
   data() {
     return {
-      image: require('@/assets/images/elements/apple-watch.png'),
+      image: require('@/assets/images/safetech/img.png'),
     }
   },
 
