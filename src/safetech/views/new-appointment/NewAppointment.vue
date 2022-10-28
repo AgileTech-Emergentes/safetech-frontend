@@ -3,9 +3,16 @@
     <b-row>
       <b-col cols="12">
         <b-input-group>
-          <b-form-input placeholder="Buscar electrodoméstico" />
+          <b-form-input
+            v-model="searchInput"
+            placeholder="Buscar electrodoméstico"
+            @keyup.enter="getAppliancesByName"
+          />
           <template #append>
-            <b-button variant="primary"><feather-icon
+            <b-button
+              variant="primary"
+              @click="getAppliancesByName"
+            ><feather-icon
               icon="SearchIcon"
             /></b-button>
           </template>
@@ -13,19 +20,28 @@
       </b-col>
     </b-row>
     <b-row class="mt-2">
-      <pre>{{appliances}}</pre>
-      <b-col cols="12">
-        <b-card
-          v-for="i in 4"
-          :key="i"
-          title="Card Title"
-          img-src="https://picsum.photos/600/300/?image=25"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem;"
-          class="mb-2"
-        />
+      <b-col
+        cols="12"
+        class="d-flex"
+      >
+        <div
+          v-for="(appliance, index) in appliances"
+          :key="index"
+          class="d-flex"
+        >
+          <b-card
+            :title="appliance.name"
+            :img-src="appliance.imgUrl"
+            img-alt="Image"
+            img-top
+            img-height="120px"
+            img-width="120px"
+            tag="article"
+            style="width: 16rem;"
+            class="mb-2 mr-1 cursor-pointer"
+          />
+        </div>
+
       </b-col>
     </b-row>
   </div>
@@ -42,6 +58,7 @@ export default {
   data() {
     return {
       appliances: [],
+      searchInput: '',
     }
   },
   async created() {
@@ -50,9 +67,18 @@ export default {
   methods: {
     async getAppliances() {
       const data = await NewAppointmentService.getAppliances()
-      console.log('data ', data)
       if (data.status === 200) {
         this.appliances = data.data
+      }
+    },
+    async getAppliancesByName() {
+      if (this.searchInput == null || this.searchInput === '') {
+        await this.getAppliances()
+      } else {
+        const data = await NewAppointmentService.getAppliancesByName(this.searchInput)
+        if (data.status === 200) {
+          this.appliances = data.data
+        }
       }
     },
   },
