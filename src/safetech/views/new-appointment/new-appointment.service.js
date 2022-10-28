@@ -25,6 +25,14 @@ class NewAppointmentService {
       throw error
     }
   }
+  async getTechnicalsByApplianceIdAndDate(applianceId, shiftId, date) {
+    try {
+      const data = await safeTechApi.get(`/technicals/appliance/${applianceId}/shift/${shiftId}/date/${date}`)
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
 }
 
 export default new NewAppointmentService()

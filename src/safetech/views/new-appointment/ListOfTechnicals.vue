@@ -2,10 +2,19 @@
   <div>
     <b-row>
       <b-col>
-        <b-form-datepicker />
+        <b-form-datepicker
+          v-model="dateSelected"
+          :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+          locale="en"
+          @input="getTechnicalsByApplianceIdAndDate"
+        />
       </b-col>
       <b-col>
-        <b-form-select />
+        <b-form-select
+          v-model="shiftSelected"
+          :options="shiftOptions"
+          @input="getTechnicalsByApplianceIdAndDate"
+        />
       </b-col>
       <b-col />
       <b-col>
@@ -37,7 +46,14 @@
             style="width: 16rem;"
             class="mb-2 mr-1 cursor-pointer"
             @click="selectTechnical(technical)"
-          />
+          >
+            <b-button
+              variant="primary"
+              size="sm"
+            >
+              See Profile
+            </b-button>
+          </b-card>
         </div>
 
       </b-col>
@@ -57,6 +73,13 @@ export default {
   data() {
     return {
       technicals: [],
+      dateSelected: '',
+      shiftSelected: null,
+      shiftOptions: [
+        { value: null, text: 'Selecciona un horario' },
+        { value: 1, text: 'Mañana' },
+        { value: 2, text: 'Tarde' },
+      ],
     }
   },
   computed: {
@@ -73,6 +96,12 @@ export default {
     }),
     async getTechnicalsByApplianceId() {
       const data = await NewAppointmentService.getTechnicalsByApplianceId(this.applianceSelected.id)
+      if (data.status === 200) {
+        this.technicals = data.data
+      }
+    },
+    async getTechnicalsByApplianceIdAndDate() {
+      const data = await NewAppointmentService.getTechnicalsByApplianceIdAndDate(this.applianceSelected.id, this.shiftSelected, this.dateSelected)
       if (data.status === 200) {
         this.technicals = data.data
       }
