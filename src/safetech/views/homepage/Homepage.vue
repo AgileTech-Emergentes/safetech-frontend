@@ -16,7 +16,7 @@
       ¿Te gustaría agendar una?</h3>
     </b-row>
     <b-row class="d-flex  align-content-center justify-content-center">
-      <b-button variant="primary-safetech">Agendar una cita</b-button>
+      <b-button variant="primary-safetech" @click="newAppointment">Agendar una cita</b-button>
     </b-row>
 
   </div>
@@ -28,6 +28,11 @@ export default {
     return {
       image: require('@/assets/images/safetech/img.png'),
     }
+  },
+  methods: {
+    newAppointment() {
+      this.$router.push({ name: 'add-appointment' })
+    },
   },
 
 }

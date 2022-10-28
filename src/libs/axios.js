@@ -11,6 +11,11 @@ const axiosIns = axios.create({
   // headers: {'X-Custom-Header': 'foobar'}
 })
 
+/* export const safeTechApi = axios.create({
+  baseURL: 'http://localhost:8080/api/v1/',
+  // params: {}
+}) */
+
 Vue.prototype.$http = axiosIns
 
 export default axiosIns

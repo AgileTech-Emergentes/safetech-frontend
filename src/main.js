@@ -22,6 +22,7 @@ import '@/libs/toastification'
 import '@/libs/sweet-alerts'
 import '@/libs/vue-select'
 import '@/libs/tour'
+import { safeTechApi } from './safetech/service/axios'
 
 // Axios Mock Adapter
 import '@/@fake-db/db'
@@ -49,6 +50,7 @@ require('@core/scss/core.scss')
 require('@/assets/scss/style.scss')
 
 Vue.config.productionTip = false
+window.safeTechApi = safeTechApi
 
 new Vue({
   router,
