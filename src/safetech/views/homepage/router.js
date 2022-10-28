@@ -6,13 +6,24 @@ export default [
     component: () => import('@/safetech/views/homepage/Homepage.vue'),
   },
   {
-    path: '/add-appointment/',
-    name: 'add-appointment',
+    path: '/step-1/choose-appliance',
+    name: 'choose-appliance',
     component: () => import('@/safetech/views/new-appointment/NewAppointment.vue'),
     meta: {
-      pageTitle: 'Agendar por servicio',
+      pageTitle: 'Escoger servicio',
       breadcrumb: [{
-        text: 'Agendar por servicio',
+        text: 'Escoger servicio',
+      }],
+    },
+  },
+  {
+    path: '/step-2/choose-technical',
+    name: 'choose-technical',
+    component: () => import('@/safetech/views/new-appointment/ListOfTechnicals.vue'),
+    meta: {
+      pageTitle: 'Escoger técnico',
+      breadcrumb: [{
+        text: 'Escoger técnico',
       }],
     },
   },

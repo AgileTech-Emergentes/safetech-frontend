@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     newAppointment() {
-      this.$router.push({ name: 'add-appointment' })
+      this.$router.push({ name: 'choose-appliance' })
     },
   },
 

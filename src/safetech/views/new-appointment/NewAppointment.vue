@@ -39,6 +39,7 @@
             tag="article"
             style="width: 16rem;"
             class="mb-2 mr-1 cursor-pointer"
+            @click="selectAppliance(appliance)"
           />
         </div>
 
@@ -50,6 +51,7 @@
 <script>
 import HeaderSlot from '@/safetech/commons/HeaderSlot.vue'
 import NewAppointmentService from '@/safetech/views/new-appointment/new-appointment.service'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
@@ -59,12 +61,20 @@ export default {
     return {
       appliances: [],
       searchInput: '',
+      applianceSelected: null,
     }
   },
   async created() {
     await this.getAppliances()
   },
   methods: {
+    ...mapActions({
+      A_SET_APPLIANCE_SELECTED: 'NewAppointmentStore/A_SET_APPLIANCE_SELECTED',
+    }),
+    selectAppliance(item) {
+      this.A_SET_APPLIANCE_SELECTED(item)
+      this.$router.push({ name: 'choose-technical' })
+    },
     async getAppliances() {
       const data = await NewAppointmentService.getAppliances()
       if (data.status === 200) {
