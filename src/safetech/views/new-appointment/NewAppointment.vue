@@ -91,6 +91,9 @@ export default {
         }
       }
     },
+    async createAppointment() {
+      const data = await NewAppointmentService.createAppointment()
+    }
   },
 }
 </script>
