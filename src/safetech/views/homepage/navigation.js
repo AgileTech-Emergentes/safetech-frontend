@@ -1,5 +1,5 @@
 export default [{
   title: 'Homepage',
-  icon: 'CurrencyDollarIcon',
+  icon: 'HomeIcon',
   route: 'dashboard',
 }]

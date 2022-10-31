@@ -27,4 +27,15 @@ export default [
       }],
     },
   },
+  {
+    path: '/step-3/summary',
+    name: 'appointment-summary',
+    component: () => import('@/safetech/views/new-appointment/AppointmentSummary.vue'),
+    meta: {
+      pageTitle: 'Resumen de la cita',
+      breadcrumb: [{
+        text: 'Resumen de la cita',
+      }],
+    },
+  },
 ]

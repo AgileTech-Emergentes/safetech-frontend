@@ -16,13 +16,15 @@
           @input="getTechnicalsByApplianceIdAndDate"
         />
       </b-col>
-      <b-col />
       <b-col>
-        <div class="d-flex w-100 justify-content-end">
+        <b-button variant="primary" @click="getTechnicalsByApplianceId">Reset</b-button>
+      </b-col>
+      <b-col>
+        <!--        <div class="d-flex w-100 justify-content-end">
           <b-button variant="success">
             Ver resumen
           </b-button>
-        </div>
+        </div>-->
       </b-col>
     </b-row>
     <b-row class="mt-2">
@@ -86,6 +88,9 @@ export default {
     ...mapGetters({
       applianceSelected: 'NewAppointmentStore/applianceSelected',
     }),
+    dateSelectedFormatted() {
+      return `${this.dateSelected}T00:00:00.000Z`
+    },
   },
   async created() {
     await this.getTechnicalsByApplianceId()
@@ -101,14 +106,14 @@ export default {
       }
     },
     async getTechnicalsByApplianceIdAndDate() {
-      const data = await NewAppointmentService.getTechnicalsByApplianceIdAndDate(this.applianceSelected.id, this.shiftSelected, this.dateSelected)
+      const data = await NewAppointmentService.getTechnicalsByApplianceIdAndDate(this.applianceSelected.id, this.shiftSelected, this.dateSelectedFormatted)
       if (data.status === 200) {
         this.technicals = data.data
       }
     },
     selectTechnical(item) {
       this.A_SET_TECHNICAL_SELECTED(item)
-      this.$router.push({ name: 'choose-technical' })
+      this.$router.push({ name: 'appointment-summary' })
     },
   },
 }
