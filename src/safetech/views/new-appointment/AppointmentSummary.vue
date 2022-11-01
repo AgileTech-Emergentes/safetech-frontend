@@ -47,14 +47,14 @@
           <b-form-group
             label="Pais"
           >
-            <b-form-select v-model="countrySelected"/>
+            <b-form-input v-model="countrySelected"/>
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group
             label="Ciudad"
           >
-            <b-form-select v-model="citySelected"/>
+            <b-form-input v-model="citySelected"/>
           </b-form-group>
 
         </b-col>
@@ -62,7 +62,7 @@
           <b-form-group
             label="Calle"
           >
-            <b-form-select v-model="streetSelected" />
+            <b-form-input v-model="streetSelected" />
           </b-form-group>
 
         </b-col>
@@ -79,9 +79,13 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-button @click="createAppointment">
-          Guardar
-        </b-button>
+        <b-col cols="12">
+          <div class="w-100 d-flex justify-content-end">
+            <b-button @click="createAppointment" variant="primary">
+              Guardar
+            </b-button>
+          </div>
+        </b-col>
       </b-row>
     </b-card>
   </div>
