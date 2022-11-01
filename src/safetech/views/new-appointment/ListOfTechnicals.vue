@@ -17,9 +17,8 @@
         />
       </b-col>
 
-      <b-col>
+      <b-col v-if="shiftSelected !== null">
         <b-form-select
-          v-if="shiftSelected !== null"
           v-model="scheduleSelected"
           :options="scheduleOptions"
         />
@@ -29,15 +28,19 @@
           variant="primary"
           @click="getTechnicalsByApplianceId"
         >
-          Reset
+          Buscar
         </b-button>
       </b-col>
+      <b-col />
       <b-col>
-        <!--        <div class="d-flex w-100 justify-content-end">
-          <b-button variant="success">
-            Ver resumen
+        <div class="w-100 d-flex justify-content-end">
+          <b-button
+              variant="warning"
+              @click="getTechnicalsByApplianceId"
+          >
+            Reset
           </b-button>
-        </div>-->
+        </div>
       </b-col>
     </b-row>
     <b-row class="mt-2">
@@ -96,9 +99,9 @@ export default {
         { value: 2, text: 'Tarde' },
       ],
       scheduleOptions: [
-        { value: null, text: 'Selecciona un horario' },
+        { value: 0, text: 'Selecciona un horario' },
       ],
-      scheduleSelected: null,
+      scheduleSelected: 0,
     }
   },
   computed: {
@@ -106,7 +109,7 @@ export default {
       applianceSelected: 'NewAppointmentStore/applianceSelected',
     }),
     dateSelectedFormatted() {
-      return `${this.dateSelected}T00:00:00.000Z`
+      return `${this.dateSelected}T${this.scheduleSelected}:00.000Z`
     },
   },
   async created() {
@@ -126,7 +129,19 @@ export default {
       const data = await NewAppointmentService.getTechnicalsByApplianceIdAndDate(this.applianceSelected.id, this.shiftSelected, this.dateSelectedFormatted)
       if (data.status === 200) {
         const shift = data.data
-        console.log('shift ',shift)
+        const { repairDuration } = shift
+        let from = shift.startTime.substring(0, 2)
+        let to = shift.endTime.substring(0, 2)
+        from = Number(from)
+        to = Number(to)
+        const range = (to - from) / repairDuration
+        this.scheduleOptions = [
+          { value: 0, text: 'Selecciona un horario' },
+        ]
+        for (let i = 1; i <= range; i++) {
+          this.scheduleOptions.push({ text: `${from}:00`, value: i })
+          from += repairDuration
+        }
       }
     },
     async getShift() {
