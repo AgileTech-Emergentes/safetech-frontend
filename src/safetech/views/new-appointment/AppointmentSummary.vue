@@ -54,7 +54,7 @@
           <b-form-group
             label="Ciudad"
           >
-            <b-form-select v-model="citySelected">
+            <b-form-select v-model="citySelected"/>
           </b-form-group>
 
         </b-col>
