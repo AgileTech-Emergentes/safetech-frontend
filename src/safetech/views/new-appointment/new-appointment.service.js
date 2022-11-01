@@ -45,6 +45,14 @@ class NewAppointmentService {
       throw error
     }
   }
+  async getShift(shiftId) {
+    try {
+      const data = await safeTechApi.post(`/shifts/${shiftId}`)
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
 }
 
 export default new NewAppointmentService()

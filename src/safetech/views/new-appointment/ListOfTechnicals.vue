@@ -13,11 +13,24 @@
         <b-form-select
           v-model="shiftSelected"
           :options="shiftOptions"
-          @input="getTechnicalsByApplianceIdAndDate"
+          @input="getShift"
+        />
+      </b-col>
+
+      <b-col>
+        <b-form-select
+          v-if="shiftSelected !== null"
+          v-model="scheduleSelected"
+          :options="scheduleOptions"
         />
       </b-col>
       <b-col>
-        <b-button variant="primary" @click="getTechnicalsByApplianceId">Reset</b-button>
+        <b-button
+          variant="primary"
+          @click="getTechnicalsByApplianceId"
+        >
+          Reset
+        </b-button>
       </b-col>
       <b-col>
         <!--        <div class="d-flex w-100 justify-content-end">
@@ -78,10 +91,14 @@ export default {
       dateSelected: '',
       shiftSelected: null,
       shiftOptions: [
-        { value: null, text: 'Selecciona un horario' },
+        { value: null, text: 'Selecciona un turno' },
         { value: 1, text: 'Mañana' },
         { value: 2, text: 'Tarde' },
       ],
+      scheduleOptions: [
+        { value: null, text: 'Selecciona un horario' },
+      ],
+      scheduleSelected: null,
     }
   },
   computed: {
@@ -107,6 +124,13 @@ export default {
     },
     async getTechnicalsByApplianceIdAndDate() {
       const data = await NewAppointmentService.getTechnicalsByApplianceIdAndDate(this.applianceSelected.id, this.shiftSelected, this.dateSelectedFormatted)
+      if (data.status === 200) {
+        const shift = data.data
+        console.log('shift ',shift)
+      }
+    },
+    async getShift() {
+      const data = await NewAppointmentService.getShift(this.shiftSelected)
       if (data.status === 200) {
         this.technicals = data.data
       }
