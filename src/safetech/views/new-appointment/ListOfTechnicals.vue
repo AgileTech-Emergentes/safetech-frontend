@@ -54,12 +54,12 @@
         <b-col />
         <b-col>
           <div class="w-100 d-flex justify-content-end">
-            <b-button
-              variant="warning"
-              @click="getTechnicalsByApplianceId"
-            >
-              Reset
-            </b-button>
+            <!--            <b-button-->
+            <!--              variant="warning"-->
+            <!--              @click="getTechnicalsByApplianceId"-->
+            <!--            >-->
+            <!--              Reset-->
+            <!--            </b-button>-->
           </div>
         </b-col>
       </b-row>
@@ -71,30 +71,38 @@
         class="d-flex"
       >
         <div
-          v-for="(technical, index) in technicals"
-          :key="index"
-          class="d-flex"
+          v-if="technicals.length === 0"
+          class="mt-2 w-100 d-flex justify-content-center"
         >
-          <b-card
-            :title="technical.fullName.firstName + ' ' + technical.fullName.lastName"
-            :img-src="technical.profilePictureUrl"
-            img-alt="Image"
-            img-top
-            img-height="120px"
-            img-width="120px"
-            tag="article"
-            style="width: 16rem;"
-            class="mb-2 mr-1 cursor-pointer"
-            @click="selectTechnical(technical)"
-          >
-            <b-button
-              variant="primary"
-              size="sm"
-            >
-              Ver perfil
-            </b-button>
-          </b-card>
+          <span class="font-medium-2">Especifica un horario para mostrar los tecnicos disponibles</span>
         </div>
+        <template v-else>
+          <div
+            v-for="(technical, index) in technicals"
+            :key="index"
+            class="d-flex"
+          >
+            <b-card
+              :title="technical.fullName.firstName + ' ' + technical.fullName.lastName"
+              :img-src="technical.profilePictureUrl"
+              img-alt="Image"
+              img-top
+              img-height="120px"
+              img-width="120px"
+              tag="article"
+              style="width: 16rem;"
+              class="mb-2 mr-1 cursor-pointer"
+              @click="selectTechnical(technical)"
+            >
+              <b-button
+                variant="primary"
+                size="sm"
+              >
+                Ver perfil
+              </b-button>
+            </b-card>
+          </div>
+        </template>
 
       </b-col>
     </b-row>
@@ -124,6 +132,7 @@ export default {
         { value: null, text: 'Selecciona un horario' },
       ],
       scheduleSelected: null,
+      searchMade: false,
     }
   },
   computed: {
@@ -135,7 +144,7 @@ export default {
     },
   },
   async created() {
-    await this.getTechnicalsByApplianceId()
+    // await this.getTechnicalsByApplianceId()
   },
   methods: {
     ...mapActions({
@@ -156,6 +165,7 @@ export default {
         const data = await NewAppointmentService.getTechnicalsByApplianceIdAndDate(this.applianceSelected.id, this.shiftSelected, this.dateSelectedFormatted)
         if (data.status === 200) {
           this.technicals = data.data
+          this.searchMade = true
         }
       }
     },
