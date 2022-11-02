@@ -362,21 +362,9 @@ export default {
   },
   methods: {
     async registerUser() {
-      const params = {
-        fullName: {
-          firstName: 'sstring',
-          lastName: 'stsring',
-        },
-        dni: '76267381',
-        email: 'strissn2g@gmail.com',
-        password: '76267071',
-        profilePictureUrl: 'string',
-        address: 'strinssg',
-        phone: '987689876',
-        birthdayDate: '2022-11-02T05:18:52.442Z',
-      }
 
-      const data = await AuthenticationService.registerUser(params)
+
+      const data = await AuthenticationService.registerUser(this.information)
     },
 
     register() {
@@ -384,8 +372,8 @@ export default {
         if (success) {
           useJwt.register({
             username: this.username,
-            email: this.userEmail,
-            password: this.password,
+            email: this.information.email,
+            password: this.information.password,
           })
             .then(async response => {
               useJwt.setToken(response.data.accessToken)
