@@ -4,9 +4,9 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
-        <h2 class="brand-text text-primary ml-1">
-          Vuexy
+
+        <h2 class="brand-text text-primary ml-1 mb-1">
+          SafeTech
         </h2>
       </b-link>
       <!-- /Brand logo-->
@@ -16,7 +16,7 @@
         lg="8"
         class="d-none d-lg-flex align-items-center p-5"
       >
-        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5 ">
           <b-img
             fluid
             :src="imgUrl"
@@ -41,32 +41,13 @@
             class="mb-1 font-weight-bold"
             title-tag="h2"
           >
-            Welcome to Vuexy! 👋
+            Welcome to SafeTech! 👋🏻
           </b-card-title>
           <b-card-text class="mb-2">
             Please sign-in to your account and start the adventure
           </b-card-text>
 
-          <b-alert
-            variant="primary"
-            show
-          >
-            <div class="alert-body font-small-2">
-              <p>
-                <small class="mr-50"><span class="font-weight-bold">Admin:</span> admin@demo.com | admin</small>
-              </p>
-              <p>
-                <small class="mr-50"><span class="font-weight-bold">Client:</span> client@demo.com | client</small>
-              </p>
-            </div>
-            <feather-icon
-              v-b-tooltip.hover.left="'This is just for ACL demo purpose'"
-              icon="HelpCircleIcon"
-              size="18"
-              class="position-absolute"
-              style="top: 10; right: 10;"
-            />
-          </b-alert>
+
 
           <!-- form -->
           <validation-observer
@@ -156,7 +137,7 @@
                 block
                 :disabled="invalid"
               >
-                Sign in
+                Login
               </b-button>
             </b-form>
           </validation-observer>
@@ -169,39 +150,7 @@
           </b-card-text>
 
           <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">
-              or
-            </div>
-          </div>
 
-          <!-- social buttons -->
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button
-              variant="facebook"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button
-              variant="twitter"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="TwitterIcon" />
-            </b-button>
-            <b-button
-              variant="google"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button
-              variant="github"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="GithubIcon" />
-            </b-button>
-          </div>
         </b-col>
       </b-col>
     <!-- /Login-->
@@ -242,8 +191,6 @@ export default {
     BImg,
     BForm,
     BButton,
-    BAlert,
-    VuexyLogo,
     ValidationProvider,
     ValidationObserver,
   },
@@ -267,7 +214,7 @@ export default {
     imgUrl() {
       if (store.state.appConfig.layout.skin === 'dark') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require('@/assets/images/pages/login-v2-dark.svg')
+        this.sideImg = require('@/assets/images/pages/img.png')
         return this.sideImg
       }
       return this.sideImg
@@ -288,11 +235,7 @@ export default {
               localStorage.setItem('userData', JSON.stringify(userData))
               this.$ability.update(userData.ability)
 
-              // ? This is just for demo purpose as well.
-              // ? Because we are showing eCommerce app's cart items count in navbar
-              this.$store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', userData.extras.eCommerceCartItemsCount)
 
-              // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
               this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
                 .then(() => {
                   this.$toast({

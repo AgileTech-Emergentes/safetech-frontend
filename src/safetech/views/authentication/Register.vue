@@ -4,10 +4,9 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
 
         <h2 class="brand-text text-primary ml-1">
-          Vuexy
+          SafeTech
         </h2>
       </b-link>
       <!-- /Brand logo-->
@@ -39,11 +38,8 @@
           class="px-xl-2 mx-auto"
         >
           <b-card-title class="mb-1">
-            Adventure starts here 🚀ss
+            Sign up to start 😍
           </b-card-title>
-          <b-card-text class="mb-2">
-            Make your app management easy and fun!
-          </b-card-text>
 
           <!-- form -->
           <validation-observer
@@ -163,39 +159,6 @@
             </b-link>
           </p>
 
-          <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">
-              or
-            </div>
-          </div>
-
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button
-              variant="facebook"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button
-              variant="twitter"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="TwitterIcon" />
-            </b-button>
-            <b-button
-              variant="google"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button
-              variant="github"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="GithubIcon" />
-            </b-button>
-          </div>
         </b-col>
       </b-col>
     <!-- /Register-->
@@ -214,6 +177,8 @@ import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
+import NewAppointmentService from '@/safetech/views/new-appointment/new-appointment.service'
+import AuthenticationService from '@/safetech/views/authentication/authentication.service'
 
 export default {
   components: {
@@ -255,13 +220,31 @@ export default {
     imgUrl() {
       if (store.state.appConfig.layout.skin === 'dark') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require('@/assets/images/pages/register-v2-dark.svg')
+        this.sideImg = require('@/assets/images/pages/img.png')
         return this.sideImg
       }
       return this.sideImg
     },
   },
   methods: {
+    async registerUser() {
+      const params = {
+        fullName: {
+          firstName: 'sstring',
+          lastName: 'stsring',
+        },
+        dni: '76267381',
+        email: 'strissn2g@gmail.com',
+        password: '76267071',
+        profilePictureUrl: 'string',
+        address: 'strinssg',
+        phone: '987689876',
+        birthdayDate: '2022-11-02T05:18:52.442Z',
+      }
+
+      const data = await AuthenticationService.registerUser(params)
+    },
+
     register() {
       this.$refs.registerForm.validate().then(success => {
         if (success) {
@@ -270,12 +253,13 @@ export default {
             email: this.userEmail,
             password: this.password,
           })
-            .then(response => {
+            .then(async response => {
               useJwt.setToken(response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
               localStorage.setItem('userData', JSON.stringify(response.data.userData))
               this.$ability.update(response.data.userData.ability)
-              this.$router.push('/')
+              await this.$router.push('/')
+              await this.registerUser()
             })
             .catch(error => {
               this.$refs.registerForm.setErrors(error.response.data.error)

@@ -4,10 +4,9 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
 
-        <h2 class="brand-text text-primary ml-1">
-          Vuexy
+        <h2 class="brand-text text-primary ml-1 mb-1">
+          SafeTech
         </h2>
       </b-link>
       <!-- /Brand logo-->
@@ -17,17 +16,17 @@
         lg="8"
         class="d-none d-lg-flex align-items-center p-5"
       >
-        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5 ">
           <b-img
             fluid
             :src="imgUrl"
-            alt="Register V2"
+            alt="Login V2"
           />
         </div>
       </b-col>
       <!-- /Left Text-->
 
-      <!-- Register-->
+      <!-- Login-->
       <b-col
         lg="4"
         class="d-flex align-items-center auth-bg px-2 p-lg-5"
@@ -38,48 +37,29 @@
           lg="12"
           class="px-xl-2 mx-auto"
         >
-          <b-card-title class="mb-1">
-            Adventure starts here 🚀ss
+          <b-card-title
+            class="mb-1 font-weight-bold"
+            title-tag="h2"
+          >
+            Welcome to SafeTech! 👋🏻
           </b-card-title>
           <b-card-text class="mb-2">
-            Make your app management easy and fun!
+            Please sign-in to your account and start the adventure
           </b-card-text>
 
           <!-- form -->
           <validation-observer
-            ref="registerForm"
+            ref="loginForm"
             #default="{invalid}"
           >
             <b-form
-              class="auth-register-form mt-2"
-              @submit.prevent="register"
+              class="auth-login-form mt-2"
+              @submit.prevent="login"
             >
-              <!-- username -->
-              <b-form-group
-                label="Username"
-                label-for="register-username"
-              >
-                <validation-provider
-                  #default="{ errors }"
-                  name="Username"
-                  vid="username"
-                  rules="required"
-                >
-                  <b-form-input
-                    id="register-username"
-                    v-model="username"
-                    name="register-username"
-                    :state="errors.length > 0 ? false:null"
-                    placeholder="johndoe"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-
               <!-- email -->
               <b-form-group
                 label="Email"
-                label-for="register-email"
+                label-for="login-email"
               >
                 <validation-provider
                   #default="{ errors }"
@@ -88,21 +68,24 @@
                   rules="required|email"
                 >
                   <b-form-input
-                    id="register-email"
+                    id="login-email"
                     v-model="userEmail"
-                    name="register-email"
                     :state="errors.length > 0 ? false:null"
+                    name="login-email"
                     placeholder="john@example.com"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
 
-              <!-- password -->
-              <b-form-group
-                label-for="register-password"
-                label="Password"
-              >
+              <!-- forgot password -->
+              <b-form-group>
+                <div class="d-flex justify-content-between">
+                  <label for="login-password">Password</label>
+                  <b-link :to="{name:'auth-forgot-password'}">
+                    <small>Forgot Password?</small>
+                  </b-link>
+                </div>
                 <validation-provider
                   #default="{ errors }"
                   name="Password"
@@ -114,18 +97,18 @@
                     :class="errors.length > 0 ? 'is-invalid':null"
                   >
                     <b-form-input
-                      id="register-password"
+                      id="login-password"
                       v-model="password"
+                      :state="errors.length > 0 ? false:null"
                       class="form-control-merge"
                       :type="passwordFieldType"
-                      :state="errors.length > 0 ? false:null"
-                      name="register-password"
-                      placeholder="············"
+                      name="login-password"
+                      placeholder="Password"
                     />
                     <b-input-group-append is-text>
                       <feather-icon
-                        :icon="passwordToggleIcon"
                         class="cursor-pointer"
+                        :icon="passwordToggleIcon"
                         @click="togglePasswordVisibility"
                       />
                     </b-input-group-append>
@@ -134,71 +117,41 @@
                 </validation-provider>
               </b-form-group>
 
+              <!-- checkbox -->
               <b-form-group>
                 <b-form-checkbox
-                  id="register-privacy-policy"
+                  id="remember-me"
                   v-model="status"
                   name="checkbox-1"
                 >
-                  I agree to
-                  <b-link>privacy policy & terms</b-link>
+                  Remember Me
                 </b-form-checkbox>
               </b-form-group>
 
+              <!-- submit buttons -->
               <b-button
+                type="submit"
                 variant="primary"
                 block
-                type="submit"
                 :disabled="invalid"
               >
-                Sign up
+                Login
               </b-button>
             </b-form>
           </validation-observer>
 
-          <p class="text-center mt-2">
-            <span>Already have an account?</span>
-            <b-link :to="{name:'auth-login'}">
-              <span>&nbsp;Sign in instead</span>
+          <b-card-text class="text-center mt-2">
+            <span>New on our platform? </span>
+            <b-link :to="{name:'auth-register'}">
+              <span>&nbsp;Create an account</span>
             </b-link>
-          </p>
+          </b-card-text>
 
           <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">
-              or
-            </div>
-          </div>
 
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button
-              variant="facebook"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button
-              variant="twitter"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="TwitterIcon" />
-            </b-button>
-            <b-button
-              variant="google"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button
-              variant="github"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="GithubIcon" />
-            </b-button>
-          </div>
         </b-col>
       </b-col>
-    <!-- /Register-->
+    <!-- /Login-->
     </b-row>
   </div>
 </template>
@@ -208,30 +161,34 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
-  BRow, BCol, BLink, BButton, BForm, BFormCheckbox, BFormGroup, BFormInput, BInputGroup, BInputGroupAppend, BImg, BCardTitle, BCardText,
+  BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton, BAlert, VBTooltip,
 } from 'bootstrap-vue'
+import useJwt from '@/auth/jwt/useJwt'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
-import useJwt from '@/auth/jwt/useJwt'
+import { getHomeRouteForLoggedInUser } from '@/auth/utils'
+
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
+  directives: {
+    'b-tooltip': VBTooltip,
+  },
   components: {
-    VuexyLogo,
     BRow,
-    BImg,
     BCol,
     BLink,
-    BButton,
-    BForm,
-    BCardText,
-    BCardTitle,
-    BFormCheckbox,
     BFormGroup,
     BFormInput,
-    BInputGroup,
     BInputGroupAppend,
-    // validations
+    BInputGroup,
+    BFormCheckbox,
+    BCardText,
+    BCardTitle,
+    BImg,
+    BForm,
+    BButton,
     ValidationProvider,
     ValidationObserver,
   },
@@ -239,11 +196,11 @@ export default {
   data() {
     return {
       status: '',
-      username: '',
-      userEmail: '',
-      password: '',
-      sideImg: require('@/assets/images/pages/register-v2.svg'),
-      // validation
+      password: 'admin',
+      userEmail: 'admin@demo.com',
+      sideImg: require('@/assets/images/pages/login-v2.svg'),
+
+      // validation rules
       required,
       email,
     }
@@ -255,37 +212,54 @@ export default {
     imgUrl() {
       if (store.state.appConfig.layout.skin === 'dark') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require('@/assets/images/pages/register-v2-dark.svg')
+        this.sideImg = require('@/assets/images/pages/img.png')
         return this.sideImg
       }
       return this.sideImg
     },
   },
   methods: {
-    register() {
-      this.$refs.registerForm.validate().then(success => {
+    login() {
+      this.$refs.loginForm.validate().then(success => {
         if (success) {
-          useJwt.register({
-            username: this.username,
+          useJwt.login({
             email: this.userEmail,
             password: this.password,
           })
             .then(response => {
+              const { userData } = response.data
               useJwt.setToken(response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
-              localStorage.setItem('userData', JSON.stringify(response.data.userData))
-              this.$ability.update(response.data.userData.ability)
-              this.$router.push('/')
+              localStorage.setItem('userData', JSON.stringify(userData))
+              this.$ability.update(userData.ability)
+
+              // ? This is just for demo purpose as well.
+              // ? Because we are showing eCommerce app's cart items count in navbar
+              this.$store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', userData.extras.eCommerceCartItemsCount)
+
+              // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
+              this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
+                .then(() => {
+                  this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                      title: `Welcome ${userData.fullName || userData.username}`,
+                      icon: 'CoffeeIcon',
+                      variant: 'success',
+                      text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
+                    },
+                  })
+                })
             })
             .catch(error => {
-              this.$refs.registerForm.setErrors(error.response.data.error)
+              this.$refs.loginForm.setErrors(error.response.data.error)
             })
         }
       })
     },
   },
 }
-/* eslint-disable global-require */
 </script>
 
 <style lang="scss">
