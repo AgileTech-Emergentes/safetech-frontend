@@ -112,6 +112,7 @@
                       vid="dni"
                       rules="required"
                     >
+
                       <b-form-input
                         id="register-dni"
                         v-model="information.dni"
@@ -240,7 +241,8 @@
                   vid="birthday"
                   rules="required"
                 >
-                  <b-form-input
+
+                  <b-form-datepicker
                     id="register-birthday"
                     v-model="information.birthdayDate"
                     name="register-birthday"
@@ -298,7 +300,6 @@ import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
-import NewAppointmentService from '@/safetech/views/new-appointment/new-appointment.service'
 import AuthenticationService from '@/safetech/views/authentication/authentication.service'
 
 export default {
@@ -334,16 +335,16 @@ export default {
       email,
       information: {
         fullName: {
-          firstName: 'sstring',
-          lastName: 'stsring',
+          firstName: '',
+          lastName: '',
         },
-        dni: '76267381',
-        email: 'strissn2g@gmail.com',
-        password: '76267071',
-        profilePictureUrl: 'string',
-        address: 'strinssg',
-        phone: '987689876',
-        birthdayDate: '2022-11-02T05:18:52.442Z',
+        dni: '',
+        email: '',
+        password: '',
+        profilePictureUrl: '',
+        address: '',
+        phone: '',
+        birthdayDate: '',
       },
     }
   },
@@ -361,9 +362,6 @@ export default {
     },
   },
   methods: {
-    async registerUser() {
-      const data = await AuthenticationService.registerUser(this.information)
-    },
 
     register() {
       this.$refs.registerForm.validate().then(success => {
@@ -379,8 +377,10 @@ export default {
               useJwt.setRefreshToken(response.data.refreshToken)
               localStorage.setItem('userData', JSON.stringify(response.data.userData))
               this.$ability.update(response.data.userData.ability)
-              await this.$router.push('/')
-              await this.registerUser()
+              const data = await AuthenticationService.registerUser(this.information)
+              if (data.status === 200) {
+                await this.$router.push('/')
+              }
             })
             .catch(error => {
               this.$refs.registerForm.setErrors(error.response.data.error)

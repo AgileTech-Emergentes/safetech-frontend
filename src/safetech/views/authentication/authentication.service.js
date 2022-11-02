@@ -10,9 +10,9 @@ class AuthenticationService {
     }
   }
 
-  async loginUser(name) {
+  async loginUser(email) {
     try {
-      const data = await safeTechApi.get(`/appliances/name/${name}`)
+      const data = await safeTechApi.get(`/users/emails/${email}`)
       return data
     } catch (error) {
       throw error
