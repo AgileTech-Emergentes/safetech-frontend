@@ -1,46 +1,70 @@
 <template>
   <div>
-    <b-row>
-      <b-col>
-        <b-form-datepicker
-          v-model="dateSelected"
-          :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-          locale="en"
-        />
-      </b-col>
-      <b-col>
-        <b-form-select
-          v-model="shiftSelected"
-          :options="shiftOptions"
-          @input="getShift"
-        />
-      </b-col>
-      <b-col v-if="shiftSelected !== null">
-        <b-form-select
-          v-model="scheduleSelected"
-          :options="scheduleOptions"
-        />
-      </b-col>
-      <b-col>
-        <b-button
-          variant="primary"
-          @click="getTechnicalsByApplianceIdAndDate"
-        >
-          Buscar
-        </b-button>
-      </b-col>
-      <b-col />
-      <b-col>
-        <div class="w-100 d-flex justify-content-end">
-          <b-button
-            variant="warning"
-            @click="getTechnicalsByApplianceId"
+    <validation-observer ref="form">
+      <b-row>
+        <b-col>
+          <validation-provider
+            v-slot="{ errors }"
+            name="date"
+            rules="required"
           >
-            Reset
+            <b-form-datepicker
+              v-model="dateSelected"
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              :state="errors[0] ? false : null"
+              locale="en"
+            />
+          </validation-provider>
+        </b-col>
+        <b-col>
+          <validation-provider
+            v-slot="{ errors }"
+            name="shift"
+            rules="required"
+          >
+            <b-form-select
+              v-model="shiftSelected"
+              :options="shiftOptions"
+              :state="errors[0] ? false : null"
+              @input="getShift"
+            />
+          </validation-provider>
+        </b-col>
+        <b-col v-if="shiftSelected !== null">
+          <validation-provider
+            v-slot="{ errors }"
+            name="schedule"
+            rules="required"
+          >
+            <b-form-select
+              v-model="scheduleSelected"
+              :options="scheduleOptions"
+              :state="errors[0] ? false : null"
+            />
+          </validation-provider>
+        </b-col>
+        <b-col>
+          <b-button
+            variant="primary"
+            @click="getTechnicalsByApplianceIdAndDate"
+          >
+            Buscar
           </b-button>
-        </div>
-      </b-col>
-    </b-row>
+        </b-col>
+        <b-col />
+        <b-col>
+          <div class="w-100 d-flex justify-content-end">
+            <b-button
+              variant="warning"
+              @click="getTechnicalsByApplianceId"
+            >
+              Reset
+            </b-button>
+          </div>
+        </b-col>
+      </b-row>
+    </validation-observer>
+
     <b-row class="mt-2">
       <b-col
         cols="12"
@@ -97,9 +121,9 @@ export default {
         { value: 2, text: 'Tarde' },
       ],
       scheduleOptions: [
-        { value: 0, text: 'Selecciona un horario' },
+        { value: null, text: 'Selecciona un horario' },
       ],
-      scheduleSelected: 0,
+      scheduleSelected: null,
     }
   },
   computed: {
@@ -127,9 +151,12 @@ export default {
       }
     },
     async getTechnicalsByApplianceIdAndDate() {
-      const data = await NewAppointmentService.getTechnicalsByApplianceIdAndDate(this.applianceSelected.id, this.shiftSelected, this.dateSelectedFormatted)
-      if (data.status === 200) {
-        this.technicals = data.data
+      const validate = await this.$refs.form.validate()
+      if (validate) {
+        const data = await NewAppointmentService.getTechnicalsByApplianceIdAndDate(this.applianceSelected.id, this.shiftSelected, this.dateSelectedFormatted)
+        if (data.status === 200) {
+          this.technicals = data.data
+        }
       }
     },
     async getShift() {
@@ -143,7 +170,7 @@ export default {
         to = Number(to)
         const range = (to - from) / repairDuration
         this.scheduleOptions = [
-          { value: 0, text: 'Selecciona un horario' },
+          { value: null, text: 'Selecciona un horario' },
         ]
         for (let i = 1; i <= range; i++) {
           this.scheduleOptions.push({ text: from < 10 ? `0${from}:00` : `${from}:00`, value: from < 10 ? `0${from}:00` : `${from}:00` })
