@@ -362,16 +362,15 @@ export default {
   },
   methods: {
     async registerUser() {
-
-
       const data = await AuthenticationService.registerUser(this.information)
     },
 
     register() {
       this.$refs.registerForm.validate().then(success => {
         if (success) {
+          console.log(success)
           useJwt.register({
-            username: this.username,
+            username: `${this.information.fullName.firstName} ${this.information.fullName.lastName}`,
             email: this.information.email,
             password: this.information.password,
           })
