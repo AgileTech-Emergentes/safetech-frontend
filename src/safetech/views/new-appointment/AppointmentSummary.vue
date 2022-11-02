@@ -27,7 +27,6 @@
       </b-row>
       <b-row>
         <b-col>
-          <pre> {{dateSelected}}</pre>
           <b-form-group
             label="Fecha"
           >
@@ -145,6 +144,9 @@ export default {
       }
 
       const data = await NewAppointmentService.createAppointment(this.applianceSelected.id, this.currentUser.id, this.technicalSelected.id, params)
+      if (data.status === 200) {
+        this.$router.push({ name: 'dashboard' })
+      }
     },
   },
 }

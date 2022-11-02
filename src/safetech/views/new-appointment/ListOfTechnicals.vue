@@ -146,7 +146,7 @@ export default {
           { value: 0, text: 'Selecciona un horario' },
         ]
         for (let i = 1; i <= range; i++) {
-          this.scheduleOptions.push({ text: `${from}:00`, value: `${from}:00` })
+          this.scheduleOptions.push({ text: from < 10 ? `0${from}:00` : `${from}:00`, value: from < 10 ? `0${from}:00` : `${from}:00` })
           from += repairDuration
         }
       }
