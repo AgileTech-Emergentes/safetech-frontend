@@ -5,6 +5,8 @@ import { ToastPlugin,
   BootstrapVueIcons } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 
+import './validation/rules'
+
 import i18n from '@/libs/i18n'
 import router from '@/safetech/router'
 import store from './store'
