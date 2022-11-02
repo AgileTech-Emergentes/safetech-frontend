@@ -1,14 +1,17 @@
 import Vue from 'vue'
-import { ToastPlugin,
+import {
+  ToastPlugin,
   ModalPlugin,
   BootstrapVue,
-  BootstrapVueIcons } from 'bootstrap-vue'
+  BootstrapVueIcons,
+} from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 
 import './validation/rules'
 
 import i18n from '@/libs/i18n'
 import router from '@/safetech/router'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import store from './store'
 import App from './App.vue'
 
@@ -40,6 +43,8 @@ Vue.use(BootstrapVueIcons)
 
 // Composition API
 Vue.use(VueCompositionAPI)
+Vue.component('ValidationProvider', ValidationProvider)
+Vue.component('ValidationObserver', ValidationObserver)
 
 // Feather font icon - For form-wizard
 // * Shall remove it if not using font-icons of feather-icons - For form-wizard
