@@ -116,6 +116,9 @@ export default {
   methods: {
     ...mapActions({
       A_SET_TECHNICAL_SELECTED: 'NewAppointmentStore/A_SET_TECHNICAL_SELECTED',
+      A_SET_DATE_SELECTED: 'NewAppointmentStore/A_SET_DATE_SELECTED',
+      A_SET_SHIFT_SELECTED: 'NewAppointmentStore/A_SET_SHIFT_SELECTED',
+      A_SET_DATE_FORMATTED_SELECTED: 'NewAppointmentStore/A_SET_DATE_FORMATTED_SELECTED',
     }),
     async getTechnicalsByApplianceId() {
       const data = await NewAppointmentService.getTechnicalsByApplianceId(this.applianceSelected.id)
@@ -150,6 +153,9 @@ export default {
     },
     selectTechnical(item) {
       this.A_SET_TECHNICAL_SELECTED(item)
+      this.A_SET_DATE_SELECTED(this.dateSelected)
+      this.A_SET_SHIFT_SELECTED(this.scheduleSelected)
+      this.A_SET_DATE_FORMATTED_SELECTED(this.dateSelectedFormatted)
       this.$router.push({ name: 'appointment-summary' })
     },
   },

@@ -7,7 +7,7 @@
             label="Especialidad"
           >
             <b-form-input
-              v-model="technicalSpecialized"
+              :value="'Especializado en ' + applianceSelected.name.toLowerCase()"
               disabled
             />
           </b-form-group>
@@ -19,7 +19,7 @@
             label="Técnico"
           >
             <b-form-input
-
+              :value="technicalSelected.fullName.firstName + ' ' + technicalSelected.fullName.lastName"
               disabled
             />
           </b-form-group>
@@ -27,17 +27,25 @@
       </b-row>
       <b-row>
         <b-col>
+          <pre> {{dateSelected}}</pre>
           <b-form-group
             label="Fecha"
           >
-            <b-form-datepicker disabled />
+            <b-form-datepicker
+              :value="dateSelected"
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              disabled
+            />
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group
-            label="Turno"
+            label="Horario"
           >
-            <b-form-select disabled />
+            <b-form-input
+              v-model="shiftSelected"
+              disabled
+            />
           </b-form-group>
 
         </b-col>
@@ -47,14 +55,14 @@
           <b-form-group
             label="Pais"
           >
-            <b-form-input v-model="countrySelected"/>
+            <b-form-input v-model="countrySelected" />
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group
             label="Ciudad"
           >
-            <b-form-input v-model="citySelected"/>
+            <b-form-input v-model="citySelected" />
           </b-form-group>
 
         </b-col>
@@ -81,7 +89,10 @@
       <b-row>
         <b-col cols="12">
           <div class="w-100 d-flex justify-content-end">
-            <b-button @click="createAppointment" variant="primary">
+            <b-button
+              variant="primary"
+              @click="createAppointment"
+            >
               Guardar
             </b-button>
           </div>
@@ -109,6 +120,9 @@ export default {
     ...mapGetters({
       applianceSelected: 'NewAppointmentStore/applianceSelected',
       technicalSelected: 'NewAppointmentStore/technicalSelected',
+      dateSelected: 'NewAppointmentStore/dateSelected',
+      shiftSelected: 'NewAppointmentStore/shiftSelected',
+      dateFormattedSelected: 'NewAppointmentStore/dateFormattedSelected',
       currentUser: 'NewAppointmentStore/technicalSelected',
     }),
   },
@@ -116,7 +130,7 @@ export default {
     async createAppointment() {
       const params = {
         problemDescription: this.problemDescription,
-        scheduledAt: '2022-10-31T06:05:01.910Z',
+        scheduledAt: this.dateFormattedSelected,
         address: {
           street: this.streetSelected,
           city: this.citySelected,
@@ -124,8 +138,8 @@ export default {
         },
         status: 'SCHEDULED',
         reparationCost: {
-          amount: 0,
-          currency: 'string',
+          amount: 100,
+          currency: 'Soles',
         },
         paymentStatus: 'SUCCEED',
       }
