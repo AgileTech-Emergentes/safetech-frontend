@@ -6,7 +6,6 @@
           v-model="dateSelected"
           :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
           locale="en"
-          @input="getTechnicalsByApplianceIdAndDate"
         />
       </b-col>
       <b-col>
@@ -16,7 +15,6 @@
           @input="getShift"
         />
       </b-col>
-
       <b-col v-if="shiftSelected !== null">
         <b-form-select
           v-model="scheduleSelected"
@@ -26,7 +24,7 @@
       <b-col>
         <b-button
           variant="primary"
-          @click="getTechnicalsByApplianceId"
+          @click="getTechnicalsByApplianceIdAndDate"
         >
           Buscar
         </b-button>
@@ -35,8 +33,8 @@
       <b-col>
         <div class="w-100 d-flex justify-content-end">
           <b-button
-              variant="warning"
-              @click="getTechnicalsByApplianceId"
+            variant="warning"
+            @click="getTechnicalsByApplianceId"
           >
             Reset
           </b-button>
@@ -69,7 +67,7 @@
               variant="primary"
               size="sm"
             >
-              See Profile
+              Ver perfil
             </b-button>
           </b-card>
         </div>
@@ -128,6 +126,12 @@ export default {
     async getTechnicalsByApplianceIdAndDate() {
       const data = await NewAppointmentService.getTechnicalsByApplianceIdAndDate(this.applianceSelected.id, this.shiftSelected, this.dateSelectedFormatted)
       if (data.status === 200) {
+        this.technicals = data.data
+      }
+    },
+    async getShift() {
+      const data = await NewAppointmentService.getShift(this.shiftSelected)
+      if (data.status === 200) {
         const shift = data.data
         const { repairDuration } = shift
         let from = shift.startTime.substring(0, 2)
@@ -139,15 +143,9 @@ export default {
           { value: 0, text: 'Selecciona un horario' },
         ]
         for (let i = 1; i <= range; i++) {
-          this.scheduleOptions.push({ text: `${from}:00`, value: i })
+          this.scheduleOptions.push({ text: `${from}:00`, value: `${from}:00` })
           from += repairDuration
         }
-      }
-    },
-    async getShift() {
-      const data = await NewAppointmentService.getShift(this.shiftSelected)
-      if (data.status === 200) {
-        this.technicals = data.data
       }
     },
     selectTechnical(item) {

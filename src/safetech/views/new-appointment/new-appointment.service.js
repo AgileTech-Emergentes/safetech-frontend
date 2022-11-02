@@ -47,7 +47,7 @@ class NewAppointmentService {
   }
   async getShift(shiftId) {
     try {
-      const data = await safeTechApi.post(`/shifts/${shiftId}`)
+      const data = await safeTechApi.get(`/shifts/${shiftId}`)
       return data
     } catch (error) {
       throw error
