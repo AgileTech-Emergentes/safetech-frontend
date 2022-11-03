@@ -52,27 +52,47 @@ const data = {
 const jwtConfig = {
   secret: 'dd5f3089-40c3-403d-af14-d0c228b05cb4',
   refreshTokenSecret: '7c4c1c50-3230-45bf-9eae-c9b2e401c767',
-  expireTime: '10m',
-  refreshTokenExpireTime: '10m',
+  expireTime: '20m',
+  refreshTokenExpireTime: '20m',
 }
 
 mock.onPost('/jwt/login').reply(request => {
-  const { email, password } = JSON.parse(request.data)
+  const {
+    idUser, email, password, firstname, lastname,
+  } = JSON.parse(request.data)
+
+  const params = {
+    id: idUser,
+    fullName: `${firstname} ${lastname}`,
+    username: firstname,
+    password,
+    // eslint-disable-next-line global-require
+    avatar: require('@/assets/images/avatars/13-small.png'),
+    email,
+    role: 'admin',
+    ability: [
+      {
+        action: 'manage',
+        subject: 'all',
+      },
+    ],
+    extras: {
+      eCommerceCartItemsCount: 5,
+    },
+  }
 
   let error = {
     email: ['Something went wrong'],
   }
 
-  const user = data.users.find(u => u.email === email && u.password === password)
-
-  if (user) {
+  if (idUser) {
     try {
-      const accessToken = jwt.sign({ id: user.id }, jwtConfig.secret, { expiresIn: jwtConfig.expireTime })
-      const refreshToken = jwt.sign({ id: user.id }, jwtConfig.refreshTokenSecret, {
+      const accessToken = jwt.sign({ id: idUser }, jwtConfig.secret, { expiresIn: jwtConfig.expireTime })
+      const refreshToken = jwt.sign({ id: idUser }, jwtConfig.refreshTokenSecret, {
         expiresIn: jwtConfig.refreshTokenExpireTime,
       })
 
-      const userData = { ...user }
+      const userData = { ...params }
 
       delete userData.password
 

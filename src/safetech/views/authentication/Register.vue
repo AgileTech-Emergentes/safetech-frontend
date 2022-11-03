@@ -4,10 +4,9 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
 
         <h2 class="brand-text text-primary ml-1">
-          Vuexy
+          SafeTech
         </h2>
       </b-link>
       <!-- /Brand logo-->
@@ -39,11 +38,8 @@
           class="px-xl-2 mx-auto"
         >
           <b-card-title class="mb-1">
-            Adventure starts here 🚀ss
+            Sign up to start 😍
           </b-card-title>
-          <b-card-text class="mb-2">
-            Make your app management easy and fun!
-          </b-card-text>
 
           <!-- form -->
           <validation-observer
@@ -54,27 +50,105 @@
               class="auth-register-form mt-2"
               @submit.prevent="register"
             >
-              <!-- username -->
-              <b-form-group
-                label="Username"
-                label-for="register-username"
-              >
-                <validation-provider
-                  #default="{ errors }"
-                  name="Username"
-                  vid="username"
-                  rules="required"
-                >
-                  <b-form-input
-                    id="register-username"
-                    v-model="username"
-                    name="register-username"
-                    :state="errors.length > 0 ? false:null"
-                    placeholder="johndoe"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
+              <b-row>
+                <b-col>
+                  <!-- first name -->
+                  <b-form-group
+                    label="First Name"
+                    label-for="register-first-name"
+                  >
+                    <validation-provider
+                      #default="{ errors }"
+                      name="First Name"
+                      vid="first_name"
+                      rules="required"
+                    >
+                      <b-form-input
+                        id="register-first-name"
+                        v-model="information.fullName.firstName"
+                        name="register-username"
+                        :state="errors.length > 0 ? false:null"
+                        placeholder="Carolina"
+                      />
+                      <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
+                  </b-form-group>
+                </b-col>
+                <b-col>
+                  <!-- last name -->
+                  <b-form-group
+                    label="Last Name"
+                    label-for="register-last-name"
+                  >
+                    <validation-provider
+                      #default="{ errors }"
+                      name="Last Name"
+                      vid="last_name"
+                      rules="required"
+                    >
+                      <b-form-input
+                        id="register-last-name"
+                        v-model="information.fullName.lastName"
+                        name="register-last-name"
+                        :state="errors.length > 0 ? false:null"
+                        placeholder="Carolina"
+                      />
+                      <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <b-col>
+                  <!-- dni -->
+                  <b-form-group
+                    label="DNI"
+                    label-for="register-dni"
+                  >
+                    <validation-provider
+                      #default="{ errors }"
+                      name="DNI"
+                      vid="dni"
+                      rules="required"
+                    >
+
+                      <b-form-input
+                        id="register-dni"
+                        v-model="information.dni"
+                        name="register-dni"
+                        :state="errors.length > 0 ? false:null"
+                        placeholder="12345678"
+                      />
+                      <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
+                  </b-form-group>
+                </b-col>
+                <b-col>
+                  <!-- phone -->
+                  <b-form-group
+                    label="Phone"
+                    label-for="register-phone"
+                  >
+                    <validation-provider
+                      #default="{ errors }"
+                      name="Phone"
+                      vid="phone"
+                      rules="required"
+                    >
+                      <b-form-input
+                        id="register-phone"
+                        v-model="information.phone"
+                        name="register-phone"
+                        :state="errors.length > 0 ? false:null"
+                        placeholder="phone"
+                      />
+                      <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
+                  </b-form-group>
+
+                </b-col>
+              </b-row>
 
               <!-- email -->
               <b-form-group
@@ -89,7 +163,7 @@
                 >
                   <b-form-input
                     id="register-email"
-                    v-model="userEmail"
+                    v-model="information.email"
                     name="register-email"
                     :state="errors.length > 0 ? false:null"
                     placeholder="john@example.com"
@@ -115,7 +189,7 @@
                   >
                     <b-form-input
                       id="register-password"
-                      v-model="password"
+                      v-model="information.password"
                       class="form-control-merge"
                       :type="passwordFieldType"
                       :state="errors.length > 0 ? false:null"
@@ -130,6 +204,51 @@
                       />
                     </b-input-group-append>
                   </b-input-group>
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <!-- address -->
+              <b-form-group
+                label="Address"
+                label-for="register-address"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Address"
+                  vid="address"
+                  rules="required"
+                >
+                  <b-form-input
+                    id="register-address"
+                    v-model="information.address"
+                    name="register-address"
+                    :state="errors.length > 0 ? false:null"
+                    placeholder="address"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <!-- birthday -->
+              <b-form-group
+                label="Birthday"
+                label-for="register-birthday"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Birthday"
+                  vid="birthday"
+                  rules="required"
+                >
+
+                  <b-form-datepicker
+                    id="register-birthday"
+                    v-model="information.birthdayDate"
+                    name="register-birthday"
+                    :state="errors.length > 0 ? false:null"
+                    placeholder="birthday"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -163,39 +282,6 @@
             </b-link>
           </p>
 
-          <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">
-              or
-            </div>
-          </div>
-
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button
-              variant="facebook"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button
-              variant="twitter"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="TwitterIcon" />
-            </b-button>
-            <b-button
-              variant="google"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button
-              variant="github"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="GithubIcon" />
-            </b-button>
-          </div>
         </b-col>
       </b-col>
     <!-- /Register-->
@@ -214,6 +300,7 @@ import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
+import AuthenticationService from '@/safetech/views/authentication/authentication.service'
 
 export default {
   components: {
@@ -246,6 +333,19 @@ export default {
       // validation
       required,
       email,
+      information: {
+        fullName: {
+          firstName: '',
+          lastName: '',
+        },
+        dni: '',
+        email: '',
+        password: '',
+        profilePictureUrl: '',
+        address: '',
+        phone: '',
+        birthdayDate: '',
+      },
     }
   },
   computed: {
@@ -255,27 +355,32 @@ export default {
     imgUrl() {
       if (store.state.appConfig.layout.skin === 'dark') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require('@/assets/images/pages/register-v2-dark.svg')
+        this.sideImg = require('@/assets/images/pages/img.png')
         return this.sideImg
       }
       return this.sideImg
     },
   },
   methods: {
+
     register() {
       this.$refs.registerForm.validate().then(success => {
         if (success) {
+          console.log(success)
           useJwt.register({
-            username: this.username,
-            email: this.userEmail,
-            password: this.password,
+            username: `${this.information.fullName.firstName} ${this.information.fullName.lastName}`,
+            email: this.information.email,
+            password: this.information.password,
           })
-            .then(response => {
+            .then(async response => {
               useJwt.setToken(response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
               localStorage.setItem('userData', JSON.stringify(response.data.userData))
               this.$ability.update(response.data.userData.ability)
-              this.$router.push('/')
+              const data = await AuthenticationService.registerUser(this.information)
+              if (data.status === 200) {
+                await this.$router.push('/')
+              }
             })
             .catch(error => {
               this.$refs.registerForm.setErrors(error.response.data.error)

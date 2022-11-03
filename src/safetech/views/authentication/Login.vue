@@ -47,8 +47,6 @@
             Please sign-in to your account and start the adventure
           </b-card-text>
 
-
-
           <!-- form -->
           <validation-observer
             ref="loginForm"
@@ -172,6 +170,7 @@ import store from '@/store/index'
 import { getHomeRouteForLoggedInUser } from '@/auth/utils'
 
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import AuthenticationService from '@/safetech/views/authentication/authentication.service'
 
 export default {
   directives: {
@@ -221,38 +220,53 @@ export default {
     },
   },
   methods: {
+
     login() {
-      this.$refs.loginForm.validate().then(success => {
+      this.$refs.loginForm.validate().then(async success => {
         if (success) {
-          useJwt.login({
-            email: this.userEmail,
-            password: this.password,
-          })
-            .then(response => {
-              const { userData } = response.data
-              useJwt.setToken(response.data.accessToken)
-              useJwt.setRefreshToken(response.data.refreshToken)
-              localStorage.setItem('userData', JSON.stringify(userData))
-              this.$ability.update(userData.ability)
+          const data = await AuthenticationService.loginUser(this.userEmail)
+          console.log(data.data.password)
+          if (data.data.password === this.password) {
+            useJwt.login({
+              idUser: data.data.id,
+              email: data.data.email,
+              password: data.data.password,
+              firstname: data.data.fullName.firstName,
+              lastname: data.data.fullName.lastName,
+            })
+              .then(response => {
+                const { userData } = response.data
+                console.log(userData)
+                useJwt.setToken(response.data.accessToken)
+                useJwt.setRefreshToken(response.data.refreshToken)
+                localStorage.setItem('userData', JSON.stringify(userData))
+                this.$ability.update(userData.ability)
 
-
-              this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
-                .then(() => {
-                  this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                      title: `Welcome ${userData.fullName || userData.username}`,
-                      icon: 'CoffeeIcon',
-                      variant: 'success',
-                      text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
-                    },
+                console.log('userData', userData)
+                this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
+                  .then(() => {
+                    this.$toast({
+                      component: ToastificationContent,
+                      position: 'top-right',
+                      props: {
+                        title: `Welcome ${userData.fullName || userData.username}`,
+                        icon: 'CoffeeIcon',
+                        variant: 'success',
+                        text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
+                      },
+                    })
                   })
-                })
+              })
+              .catch(error => {
+                this.$refs.loginForm.setErrors(error.response.data.error)
+              })
+          } else {
+            this.$bvToast.toast('Invalid Credentials', {
+              title: 'Error',
+              variant: 'danger',
+              solid: true,
             })
-            .catch(error => {
-              this.$refs.loginForm.setErrors(error.response.data.error)
-            })
+          }
         }
       })
     },
