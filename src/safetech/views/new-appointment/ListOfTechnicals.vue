@@ -173,7 +173,8 @@ export default {
       const data = await NewAppointmentService.getShift(this.shiftSelected)
       if (data.status === 200) {
         const shift = data.data
-        const { repairDuration } = shift
+        let { repairDuration } = shift
+        repairDuration /= 60
         let from = shift.startTime.substring(0, 2)
         let to = shift.endTime.substring(0, 2)
         from = Number(from)
