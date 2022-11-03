@@ -177,6 +177,7 @@ export default {
       streetSelected: '',
       countrySelected: '',
       citySelected: '',
+      userData: '',
     }
   },
   computed: {
@@ -188,6 +189,9 @@ export default {
       dateFormattedSelected: 'NewAppointmentStore/dateFormattedSelected',
       currentUser: 'NewAppointmentStore/technicalSelected',
     }),
+  },
+  created() {
+    this.userData = JSON.parse(localStorage.getItem('userData'))
   },
   methods: {
     async createAppointment() {
@@ -209,7 +213,7 @@ export default {
           paymentStatus: 'SUCCEED',
         }
 
-        const data = await NewAppointmentService.createAppointment(this.applianceSelected.id, this.currentUser.id, this.technicalSelected.id, params)
+        const data = await NewAppointmentService.createAppointment(this.applianceSelected.id, this.userData.id, this.technicalSelected.id, params)
         if (data.status === 200) {
           this.$router.push({ name: 'dashboard' })
         }
