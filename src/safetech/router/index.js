@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import { canNavigate } from '@/libs/acl/routeProtection'
 import { isUserLoggedIn, getUserData, getHomeRouteForLoggedInUser } from '@/auth/utils'
 import homepage from '@/safetech/views/homepage/router'
+import profile from '@/safetech/views/profile/profile.router'
 import others from '@/router/routes/others'
 import pages from "@/router/routes/pages";
 Vue.use(VueRouter)
@@ -20,6 +21,7 @@ const router = new VueRouter({
     ...homepage,
       ...pages,
     ...others,
+    ...profile,
 
     {
       path: '*',
