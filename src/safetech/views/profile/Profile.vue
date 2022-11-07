@@ -251,7 +251,7 @@ export default {
       const validate = await this.$refs.form.validate()
       if (validate) {
         const data = await ProfileService.updateUserById(this.userData.id, this.userToUpdate)
-        if (data.data.status === 200) {
+        if (data.status === 200) {
           this.$bvToast.toast('Usuario actualizado correctamente', {
             title: 'Actualizado',
             variant: 'success',
