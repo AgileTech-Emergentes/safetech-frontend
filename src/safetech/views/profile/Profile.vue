@@ -14,7 +14,7 @@
               <b-form-input
                 v-model="userToUpdate.address"
                 :state="errors[0] ? false : null"
-                disabled
+                :disabled="isDisabled"
               />
             </validation-provider>
           </b-form-group>
@@ -33,7 +33,7 @@
               <b-form-input
                 v-model="userToUpdate.phone"
                 :state="errors[0] ? false : null"
-                disabled
+                :disabled="isDisabled"
                 type="number"
               />
             </validation-provider>
@@ -52,7 +52,7 @@
                 v-model="userToUpdate.dni"
 
                 :state="errors[0] ? false : null"
-                disabled
+                :disabled="isDisabled"
               />
             </validation-provider>
           </b-form-group>
@@ -70,7 +70,7 @@
                 v-model="userToUpdate.birthdayDate"
 
                 :state="errors[0] ? false : null"
-                disabled
+                :disabled="isDisabled"
               />
             </validation-provider>
           </b-form-group>
@@ -90,7 +90,7 @@
                 v-model="userToUpdate.email"
 
                 :state="errors[0] ? false : null"
-                disabled
+                :disabled="isDisabled"
               />
             </validation-provider>
           </b-form-group>
@@ -101,28 +101,58 @@
           >
             <validation-provider
               v-slot="{ errors }"
-              name="password"
+              name="email"
               rules="required"
             >
-              <b-form-input
-                v-model="userToUpdate.password"
-                :state="errors[0] ? false : null"
-                disabled
-              />
+              <b-input-group
+                class="input-group-merge"
+              >
+                <b-form-input
+                  id="login-password"
+                  v-model="userToUpdate.password"
+                  class="form-control-merge"
+                  :type="passwordFieldType"
+                  :state="errors[0] ? false : null"
+                  name="login-password"
+                  placeholder="Password"
+                  :disabled="isDisabled"
+                />
+                <b-input-group-append is-text>
+                  <feather-icon
+                    class="cursor-pointer"
+                    :icon="passwordToggleIcon"
+                    @click="togglePasswordVisibility"
+                  />
+                </b-input-group-append>
+              </b-input-group>
             </validation-provider>
           </b-form-group>
+
         </b-col>
       </b-row>
     </validation-observer>
     <b-row>
       <b-col class="w-100">
         <div class="d-flex justify-content-end">
-          <b-button variant="primary">
+          <b-button
+            v-if="isDisabled"
+            @click="isDisabled = false"
+            variant="primary"
+          >
             Actualizar
           </b-button>
           <b-button
-            variant="primary"
+            v-if="!isDisabled"
             class="ml-1"
+            variant="outline-danger"
+          >
+            Cancelar
+          </b-button>
+          <b-button
+            v-if="!isDisabled"
+            variant="success"
+            class="ml-1"
+            @click="saveUser"
           >
             Guardar
           </b-button>
@@ -134,8 +164,10 @@
 
 <script>
 import ProfileService from '@/safetech/views/profile/profile.service'
+import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 
 export default {
+  mixins: [togglePasswordVisibility],
   data() {
     return {
       userToUpdate: {
@@ -153,7 +185,13 @@ export default {
         birthdayDate: '',
       },
       userData: '',
+      isDisabled: true,
     }
+  },
+  computed: {
+    passwordToggleIcon() {
+      return this.passwordFieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
+    },
   },
   async created() {
     this.userData = JSON.parse(localStorage.getItem('userData'))
@@ -161,6 +199,22 @@ export default {
     if (data.status === 200) {
       this.userToUpdate = data.data
     }
+  },
+  methods: {
+    async saveUser() {
+      const validate = await this.$refs.form.validate()
+      if (validate) {
+        const data = await ProfileService.updateUserById(this.userData.id, this.userToUpdate)
+        if (data.data.status === 200) {
+          this.$bvToast.toast('Usuario actualizado correctamente', {
+            title: 'Actualizado',
+            variant: 'success',
+            solid: true,
+          })
+          this.isDisabled = true
+        }
+      }
+    },
   },
 }
 </script>
