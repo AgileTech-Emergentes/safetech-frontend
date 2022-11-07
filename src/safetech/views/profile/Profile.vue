@@ -2,6 +2,48 @@
   <b-card title="Informacion de tu perfil">
     <validation-observer ref="form">
       <b-row>
+        <b-col cols="6">
+          <b-form-group
+            label="Nombre:"
+          >
+            <validation-provider
+              v-slot="{ errors }"
+              name="firstName"
+              rules="required"
+            >
+              <b-form-input
+                v-model="userToUpdate.fullName.firstName"
+
+                :state="errors[0] ? false : null"
+                :disabled="isDisabled"
+              />
+            </validation-provider>
+          </b-form-group>
+        </b-col>
+        <b-col cols="6">
+          <b-form-group
+            label="Apellido:"
+          >
+            <validation-provider
+              v-slot="{ errors }"
+              name="lastName"
+              rules="required"
+            >
+              <b-input-group
+                class="input-group-merge"
+              >
+                <b-form-input
+                  v-model="userToUpdate.fullName.lastName"
+                  :state="errors[0] ? false : null"
+                  :disabled="isDisabled"
+                />
+              </b-input-group>
+            </validation-provider>
+          </b-form-group>
+
+        </b-col>
+      </b-row>
+      <b-row>
         <b-col cols="12">
           <b-form-group
             label="Direccion:"
@@ -136,8 +178,8 @@
         <div class="d-flex justify-content-end">
           <b-button
             v-if="isDisabled"
-            @click="isDisabled = false"
             variant="primary"
+            @click="isDisabled = false"
           >
             Actualizar
           </b-button>
@@ -192,12 +234,16 @@ export default {
     passwordToggleIcon() {
       return this.passwordFieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
     },
+    dateSelectedFormatted() {
+      return `${this.userToUpdate.birthdayDate}T$00:00:00.000Z`
+    },
   },
   async created() {
     this.userData = JSON.parse(localStorage.getItem('userData'))
     const data = await ProfileService.getUserById(this.userData.id)
     if (data.status === 200) {
       this.userToUpdate = data.data
+      console.log('userToUpdate ', this.userToUpdate)
     }
   },
   methods: {
