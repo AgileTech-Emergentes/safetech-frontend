@@ -373,12 +373,30 @@ export default {
             password: this.information.password,
           })
             .then(async response => {
+              // const temporal = {
+              //   fullName: {
+              //     firstName: 'Debie',
+              //     lastName: 'Garcia',
+              //   },
+              //   dni: '18965313',
+              //   email: 'de2b3i3e@gmail.com',
+              //   password: 'btsforever',
+              //   profilePictureUrl: 'string',
+              //   address: 'string',
+              //   phone: '933258723',
+              //   birthdayDate: '2022-10-27T16:25:18.956Z',
+              // }
+
               useJwt.setToken(response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
-              localStorage.setItem('userData', JSON.stringify(response.data.userData))
-              this.$ability.update(response.data.userData.ability)
+              const dataInfo = response.data.userData
               const data = await AuthenticationService.registerUser(this.information)
               if (data.status === 200) {
+                dataInfo.id = data.data.id
+
+                localStorage.setItem('userData', JSON.stringify(dataInfo))
+
+                this.$ability.update(response.data.userData.ability)
                 await this.$router.push('/')
               }
             })
