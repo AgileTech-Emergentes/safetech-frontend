@@ -20,9 +20,9 @@ export default [
             {
               text: 'Proximas citas',
               active: true,
-              tab: 1,
             },
           ],
+          tab: 1,
         },
       },
       {
@@ -35,9 +35,9 @@ export default [
             {
               text: 'Historial de citas',
               active: true,
-              tab: 2,
             },
           ],
+          tab: 2,
         },
       },
     ],

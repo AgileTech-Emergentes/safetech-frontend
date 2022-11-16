@@ -22,6 +22,7 @@
         </b-button>
       </b-col>
     </b-row>
+    <router-view :key="$route.name"/>
   </div>
 </template>
 
