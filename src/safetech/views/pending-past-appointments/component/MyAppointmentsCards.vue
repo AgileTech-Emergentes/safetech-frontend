@@ -5,6 +5,9 @@
       :key="index"
     >
       <b-card :header="item.scheduledAt" header-tag="header" :title="'Cita con ' + item.technical.fullName.firstName + ' ' + item.technical.fullName.lastName">
+        <template #header>
+          {{ formattedDate(item.scheduledAt) }}
+        </template>
         <b-card-text>
           Reparacion de {{ item.appliance.name }}
         </b-card-text>
@@ -20,6 +23,7 @@
 
 <script>
 import MyAppointmentsService from '@/safetech/views/pending-past-appointments/my-appointments.service'
+import moment from "moment";
 
 export default {
   name: 'MyAppointmentsCards',
@@ -35,10 +39,14 @@ export default {
   },
   methods: {
     async getAppointmentsByIdAndStatus() {
-      const data = await MyAppointmentsService.getAppointmentsByIdAndStatus(this.userData.id, 'SCHEDULED')
+      const status = this.$route.meta.tab === 1 ? 'SCHEDULED' : 'FINISHED'
+      const data = await MyAppointmentsService.getAppointmentsByIdAndStatus(this.userData.id, status)
       if (data.status === 200) {
         this.appointments = data.data
       }
+    },
+    formattedDate(date) {
+      return moment(date).format('MM/DD/YYYY h:mm A')
     },
   },
 }
