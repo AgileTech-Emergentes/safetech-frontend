@@ -92,13 +92,21 @@
               tag="article"
               style="width: 16rem;"
               class="mb-2 mr-1 cursor-pointer"
-              @click="selectTechnical(technical)"
             >
               <b-button
                 variant="primary"
                 size="sm"
+                @click="goToProfile"
               >
                 Ver perfil
+              </b-button>
+              <b-button
+                variant="success"
+                size="sm"
+                class="ml-1"
+                @click="selectTechnical(technical)"
+              >
+                Elegir
               </b-button>
             </b-card>
           </div>
@@ -195,6 +203,9 @@ export default {
       this.A_SET_SHIFT_SELECTED(this.scheduleSelected)
       this.A_SET_DATE_FORMATTED_SELECTED(this.dateSelectedFormatted)
       this.$router.push({ name: 'appointment-summary' })
+    },
+    goToProfile() {
+      this.$router.push({ name: 'technical-profile' })
     },
   },
 }

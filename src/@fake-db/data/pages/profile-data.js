@@ -78,6 +78,14 @@ const data = {
         desc: 'Candy jelly beans powder brownie biscuit. Jelly marzipan oat cake cake.',
         favorite: false,
       },
+      {
+        imgUrl: require('@/assets/images/avatars/1-small.png'),
+        title: 'Norman Gross',
+        id: 'tiana59 ',
+        tags: '#sketch #uiux #figma',
+        desc: 'Candy jelly beans powder brownie biscuit. Jelly marzipan oat cake cake.',
+        favorite: false,
+      },
     ],
     post: [
       {
