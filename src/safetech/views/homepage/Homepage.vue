@@ -42,7 +42,9 @@
               <b-card-text>
                 Reparacion de {{ item.appliance.name }}
               </b-card-text>
-
+              <div class="d-flex justify-content-end">
+                <b-button href="#" variant="danger">Cancelar</b-button>
+              </div>
             </b-card>
           </div>
         </div>
