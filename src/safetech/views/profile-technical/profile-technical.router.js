@@ -1,6 +1,6 @@
 export default [
   {
-    path: '/technical-profile/',
+    path: '/technical-profile/:id',
     name: 'technical-profile',
     component: () => import('@/views/pages/profile/Profile.vue'),
     meta: {

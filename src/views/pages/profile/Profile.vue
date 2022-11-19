@@ -74,6 +74,7 @@ import ProfileLatestPhotos from './ProfileLatestPhotos.vue'
 import ProfileSuggestion from './ProfileSuggestion.vue'
 import ProfilePolls from './ProfilePolls.vue'
 import profileBottom from './profileBottom.vue'
+import ProfileTechnicalService from '@/safetech/views/profile-technical/profile-technical.service'
 
 /* eslint-disable global-require */
 export default {
@@ -94,10 +95,31 @@ export default {
   data() {
     return {
       profileData: { },
+      reviewsOfTechnical: [],
+      technicalData: {},
     }
   },
   created() {
     this.$http.get('/profile/data').then(res => { this.profileData = res.data })
+  },
+  async mounted() {
+    await this.getTechnicalById()
+    await this.getReviewsByTechnicalId()
+    await this.getAverageScoreByTechnicalId()
+  },
+  methods: {
+    async getTechnicalById() {
+      const data = await ProfileTechnicalService.getTechnicalById(this.$route.params.id)
+      this.technicalData = data.data
+    },
+    async getReviewsByTechnicalId() {
+      const data = await ProfileTechnicalService.getReviewsByTechnicalId(this.$route.params.id)
+      this.reviewsOfTechnical = data.data
+    },
+    async getAverageScoreByTechnicalId() {
+      const data = await ProfileTechnicalService.getAverageScoreByTechnicalId(this.$route.params.id)
+      this.reviewsOfTechnical = data.data
+    },
   },
 }
 /* eslint-disable global-require */

@@ -96,7 +96,7 @@
               <b-button
                 variant="primary"
                 size="sm"
-                @click="goToProfile"
+                @click="goToProfile(technical.id)"
               >
                 Ver perfil
               </b-button>
@@ -204,8 +204,8 @@ export default {
       this.A_SET_DATE_FORMATTED_SELECTED(this.dateSelectedFormatted)
       this.$router.push({ name: 'appointment-summary' })
     },
-    goToProfile() {
-      this.$router.push({ name: 'technical-profile' })
+    goToProfile(id) {
+      this.$router.push({ name: 'technical-profile', params: { id } })
     },
   },
 }
