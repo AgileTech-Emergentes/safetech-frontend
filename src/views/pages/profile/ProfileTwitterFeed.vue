@@ -20,16 +20,9 @@
             {{ data.user.fullName.firstName }} {{ data.user.fullName.lastName }}
           </h6>
           <b-link>
-            <small class="text-muted">@{{ data.id }}</small>
+            <small class="text-muted">{{ data.score }} / 10 </small>
             <feather-icon icon="CheckCircleIcon" />
           </b-link>
-        </div>
-        <div class="profile-star ml-auto">
-          <feather-icon
-            icon="StarIcon"
-            size="18"
-            :class="data.favorite ? 'profile-favorite':''"
-          />
         </div>
       </div>
       <b-card-text class="mb-50">
