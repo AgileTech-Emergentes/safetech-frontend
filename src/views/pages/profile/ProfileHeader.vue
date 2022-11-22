@@ -19,15 +19,15 @@
           />
         </div>
         <!-- profile title -->
-        <div class="profile-title ml-3">
-          <h2 class="text-white">
-            {{ headerData.username }}
+        <div class="profile-title ml-2">
+          <h2>
+            {{ headerData.fullName.firstName }}
           </h2>
-          <p class="text-white">
-            {{ headerData.designation }}
+          <p>
+            {{ headerData.fullName.lastName }}
           </p>
         </div>
-        <b-button variant="primary">
+        <b-button class="ml-2" variant="primary">
           {{ headerData.score }} / 10
         </b-button>
         <!--/ profile title -->

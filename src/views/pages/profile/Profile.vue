@@ -21,7 +21,7 @@
           order="1"
           order-lg="2"
         >
-          <profile-twitter-feed :twitter-feed="profileData.twitterFeeds" />
+          <profile-twitter-feed :twitter-feed="reviewsOfTechnical" />
         </b-col>
         <!--/ about suggested page and twitter feed -->
 
@@ -49,12 +49,12 @@
         <!--/ latest photos suggestion and polls -->
 
         <!-- load more  -->
-        <b-col
-          cols="12"
-          order="4"
-        >
-          <profile-bottom />
-        </b-col>
+<!--        <b-col-->
+<!--          cols="12"-->
+<!--          order="4"-->
+<!--        >-->
+<!--          <profile-bottom />-->
+<!--        </b-col>-->
         <!--/ load more  -->
       </b-row>
     </section>
@@ -103,10 +103,8 @@ export default {
     this.$http.get('/profile/data').then(res => { this.profileData = res.data })
   },
   async mounted() {
-    await this.getTechnicalById()
     await this.getReviewsByTechnicalId()
-    const data = await this.getAverageScoreByTechnicalId()
-    this.technicalData = data.data
+    await this.getAverageScoreByTechnicalId()
   },
   methods: {
     async getTechnicalById() {
@@ -119,7 +117,7 @@ export default {
     },
     async getAverageScoreByTechnicalId() {
       const data = await ProfileTechnicalService.getAverageScoreByTechnicalId(this.$route.params.id)
-      this.reviewsOfTechnical = data.data
+      this.technicalData = data.data
     },
   },
 }

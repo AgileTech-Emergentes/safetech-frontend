@@ -5,19 +5,19 @@
     <!-- twitter feed -->
     <div
       v-for="(data,index) in twitterFeed"
-      :key="data.avatar"
+      :key="data.id"
       class="profile-twitter-feed"
       :class="index != 0 ? 'mt-2' : 'mt-1'"
     >
       <div class="d-flex justify-content-start align-items-center mb-1">
         <b-avatar
           size="40"
-          :src="data.imgUrl"
+          :src="data.user.profilePictureUrl"
           class="mr-1"
         />
         <div class="profile-user-info">
           <h6 class="mb-0">
-            {{ data.title }}
+            {{ data.user.fullName.firstName }} {{ data.user.fullName.lastName }}
           </h6>
           <b-link>
             <small class="text-muted">@{{ data.id }}</small>
@@ -33,7 +33,7 @@
         </div>
       </div>
       <b-card-text class="mb-50">
-        {{ data.desc }}
+        {{ data.text }}
       </b-card-text>
       <b-link>
         <small>
