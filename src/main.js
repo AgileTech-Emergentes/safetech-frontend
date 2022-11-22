@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import './filters/dates'
+
 import {
   ToastPlugin,
   ModalPlugin,

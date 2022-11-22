@@ -3,7 +3,7 @@
     v-if="Object.keys(profileData).length"
     id="user-profile"
   >
-    <profile-header :header-data="profileData.header" />
+    <profile-header :header-data="technicalData" />
     <!-- profile info  -->
     <section id="profile-info">
       <b-row>
@@ -14,7 +14,7 @@
           order="2"
           order-lg="1"
         >
-          <profile-about :about-data="profileData.userAbout" />
+          <profile-about :about-data="technicalData" />
           <!--          <profile-suggested-pages :pages-data="profileData.suggestedPages" />-->
         </b-col>
         <b-col
@@ -105,7 +105,8 @@ export default {
   async mounted() {
     await this.getTechnicalById()
     await this.getReviewsByTechnicalId()
-    await this.getAverageScoreByTechnicalId()
+    const data = await this.getAverageScoreByTechnicalId()
+    this.technicalData = data.data
   },
   methods: {
     async getTechnicalById() {

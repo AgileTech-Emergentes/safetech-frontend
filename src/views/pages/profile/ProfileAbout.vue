@@ -2,15 +2,43 @@
   <b-card>
     <!-- about -->
     <div
-      v-for="(data,key,index) in aboutData"
-      :key="data.title"
-      :class="index ? 'mt-2':''"
+      class="mt-2"
     >
-      <h5 class="text-capitalize mb-75">
-        {{ key }}
+      <h5 class="mb-75">
+        Acerca de:
       </h5>
       <b-card-text>
-        {{ data }}
+        {{ aboutData.aboutMe }}
+      </b-card-text>
+    </div>
+    <div
+      class="mt-2"
+    >
+      <h5 class="text-capitalize mb-75">
+        Direccion:
+      </h5>
+      <b-card-text>
+        {{ aboutData.address }}
+      </b-card-text>
+    </div>
+    <div
+      class="mt-2"
+    >
+      <h5 class="text-capitalize mb-75">
+        Telefono:
+      </h5>
+      <b-card-text>
+        {{ aboutData.phone }}
+      </b-card-text>
+    </div>
+    <div
+      class="mt-2"
+    >
+      <h5 class="text-capitalize mb-75">
+        Fecha de cumpleaños:
+      </h5>
+      <b-card-text>
+        {{ aboutData.birthdayDate | myGlobal }}
       </b-card-text>
     </div>
   </b-card>
