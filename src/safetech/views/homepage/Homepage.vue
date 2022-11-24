@@ -43,7 +43,7 @@
                 Reparacion de {{ item.appliance.name }}
               </b-card-text>
               <div class="d-flex justify-content-end">
-                <b-button href="#" variant="danger">Cancelar</b-button>
+                <b-button href="#" variant="danger" @click="cancelAppointment(item.id)">Cancelar</b-button>
               </div>
             </b-card>
           </div>
@@ -86,6 +86,17 @@ export default {
     formattedDate(date) {
       return moment(date).format('MM/DD/YYYY h:mm A')
     },
+    async cancelAppointment(appointmentId) {
+      const data = await MyAppointmentsService.cancelAppointment(appointmentId)
+      if (data.status === 200) {
+        this.$bvToast.toast('Cita cancelada', {
+          title: 'Cita cancelada',
+          variant: 'success',
+          solid: true
+        })
+        await this.getAppointmentsByIdAndStatus()
+      }
+    }
   },
 
 

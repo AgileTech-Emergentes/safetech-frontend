@@ -9,7 +9,9 @@ import profile from '@/safetech/views/profile/profile.router'
 import profileTechnicalRouter from '@/safetech/views/profile-technical/profile-technical.router'
 import myAppointmentsRouter from '@/safetech/views/pending-past-appointments/pending-past-appointments.router'
 import others from '@/router/routes/others'
-import pages from "@/router/routes/pages";
+import pages from "@/router/routes/pages"
+import reportRouter from '@/safetech/views/pending-past-appointments/report.router'
+import reviewRouter from '@/safetech/views/pending-past-appointments/review.router'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -26,6 +28,8 @@ const router = new VueRouter({
     ...profile,
     ...myAppointmentsRouter,
     ...profileTechnicalRouter,
+    ...reportRouter,
+    ...reviewRouter,
 
     {
       path: '*',
