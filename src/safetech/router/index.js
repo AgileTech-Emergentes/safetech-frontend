@@ -12,6 +12,7 @@ import others from '@/router/routes/others'
 import pages from "@/router/routes/pages"
 import reportRouter from '@/safetech/views/pending-past-appointments/report.router'
 import reviewRouter from '@/safetech/views/pending-past-appointments/review.router'
+import appointmentInfoRouter from '@/safetech/views/pending-past-appointments/appointmentInfo.router'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -30,6 +31,7 @@ const router = new VueRouter({
     ...profileTechnicalRouter,
     ...reportRouter,
     ...reviewRouter,
+    ...appointmentInfoRouter,
 
     {
       path: '*',

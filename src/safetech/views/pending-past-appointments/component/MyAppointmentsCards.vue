@@ -12,9 +12,10 @@
           Reparacion de {{ item.appliance.name }}
         </b-card-text>
         <div class="d-flex justify-content-end">
-          <b-button v-if="$route.meta.tab === 1" href="#" variant="danger" @click="cancelAppointment(item.id)">Cancelar</b-button>
-          <b-button v-if="$route.meta.tab === 2" href="#" variant="success" @click="goToReview(item.id)">Dejar comentarios</b-button>
-          <b-button v-if="$route.meta.tab === 2" href="#" variant="info" class="ml-2" @click="goToReport(item.id)">Ver reporte</b-button>
+          <b-button v-if="$route.meta.tab === 1" href="#" variant="info" @click="goToAppointmentInfo(item.id)">Detalles</b-button>
+          <b-button v-if="$route.meta.tab === 1" href="#" variant="danger" class="ml-2" @click="cancelAppointment(item.id)">Cancelar</b-button>
+          <b-button v-if="$route.meta.tab === 2" href="#" variant="success" @click="goToReview(item.id)">Dejar Comentarios</b-button>
+          <b-button v-if="$route.meta.tab === 2" href="#" variant="info" class="ml-2" @click="goToReport(item.id)">Ver Reporte</b-button>
         </div>
       </b-card>
     </div>
@@ -30,7 +31,9 @@ export default {
   data() {
     return {
       userData: '',
+      appointmentId: '',
       appointments: [],
+      modalProfileAppointmentOn: false,
     }
   },
   async created() {
@@ -64,7 +67,10 @@ export default {
     },
     goToReview(appointmentId) {
       this.$router.push({ name: 'review-by-appointment', params: { appointmentId } })
-    }
+    },
+    goToAppointmentInfo(appointmentId) {
+      this.$router.push({ name: 'appointment-info', params: { appointmentId } })
+    },
   },
 }
 </script>
