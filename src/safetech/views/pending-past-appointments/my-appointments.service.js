@@ -9,6 +9,42 @@ class MyAppointmentsService {
       throw error
     }
   }
+
+  async getAppointmentById(appointmentId){
+    try {
+      const data = await safeTechApi.get(`/appointments/${appointmentId}`)
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async cancelAppointment(appointmentId) {
+    try {
+      const data = await safeTechApi.delete(`/appointments/${appointmentId}`)
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async getReportByAppointmentId(appointmentId) {
+    try {
+      const data = await safeTechApi.get(`/appointments/${appointmentId}/report`)
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async createReview(userId, technicalId, appointmentId, params){
+    try {
+      const data = await safeTechApi.post(`reviews/user/${userId}/technical/${technicalId}/appointment/${appointmentId}`, params)
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
 }
 
 export default new MyAppointmentsService()

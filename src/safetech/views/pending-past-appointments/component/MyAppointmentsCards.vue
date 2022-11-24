@@ -12,9 +12,9 @@
           Reparacion de {{ item.appliance.name }}
         </b-card-text>
         <div class="d-flex justify-content-end">
-          <b-button v-if="$route.meta.tab === 1" href="#" variant="danger">Cancelar</b-button>
-          <b-button v-if="$route.meta.tab === 2" href="#" variant="success">Dejar comentarios</b-button>
-          <b-button v-if="$route.meta.tab === 2" href="#" variant="info" class="ml-2">Ver reporte</b-button>
+          <b-button v-if="$route.meta.tab === 1" href="#" variant="danger" @click="cancelAppointment(item.id)">Cancelar</b-button>
+          <b-button v-if="$route.meta.tab === 2" href="#" variant="success" @click="goToReview(item.id)">Dejar comentarios</b-button>
+          <b-button v-if="$route.meta.tab === 2" href="#" variant="info" class="ml-2" @click="goToReport(item.id)">Ver reporte</b-button>
         </div>
       </b-card>
     </div>
@@ -48,6 +48,23 @@ export default {
     formattedDate(date) {
       return moment(date).format('MM/DD/YYYY h:mm A')
     },
+    async cancelAppointment(appointmentId) {
+      const data = await MyAppointmentsService.cancelAppointment(appointmentId)
+      if (data.status === 200) {
+        this.$bvToast.toast('Cita cancelada', {
+          title: 'Cita cancelada',
+          variant: 'success',
+          solid: true
+        })
+        await this.getAppointmentsByIdAndStatus()
+      }
+    },
+    goToReport(appointmentId) {
+      this.$router.push({ name: 'report-by-appointment', params: { appointmentId } })
+    },
+    goToReview(appointmentId) {
+      this.$router.push({ name: 'review-by-appointment', params: { appointmentId } })
+    }
   },
 }
 </script>
