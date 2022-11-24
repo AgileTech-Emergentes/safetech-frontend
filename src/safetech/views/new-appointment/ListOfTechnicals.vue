@@ -114,23 +114,31 @@
 
       </b-col>
     </b-row>
+    <modal-profile-technical
+      v-if="modalProfileTechnicalOn"
+      :technical-id="technicalIdToSend"
+      @close="modalProfileTechnicalOn = false"
+    />
   </div>
 </template>
 
 <script>
 import HeaderSlot from '@/safetech/commons/HeaderSlot.vue'
 import NewAppointmentService from '@/safetech/views/new-appointment/new-appointment.service'
+import ModalProfileTechnical from "@/safetech/views/profile-technical/ModalProfileTechnical";
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
     HeaderSlot,
+    ModalProfileTechnical,
   },
   data() {
     return {
       technicals: [],
       dateSelected: '',
       shiftSelected: null,
+      technicalIdToSend: null,
       shiftOptions: [
         { value: null, text: 'Selecciona un turno' },
         { value: 1, text: 'Mañana' },
@@ -141,6 +149,7 @@ export default {
       ],
       scheduleSelected: null,
       searchMade: false,
+      modalProfileTechnicalOn: false,
     }
   },
   computed: {
@@ -205,7 +214,9 @@ export default {
       this.$router.push({ name: 'appointment-summary' })
     },
     goToProfile(id) {
-      this.$router.push({ name: 'technical-profile', params: { id } })
+      // this.$router.push({ name: 'technical-profile', params: { id } })
+      this.technicalIdToSend = id
+      this.modalProfileTechnicalOn = true
     },
   },
 }

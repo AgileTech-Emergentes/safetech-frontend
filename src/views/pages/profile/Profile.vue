@@ -11,15 +11,11 @@
         <b-col
           lg="3"
           cols="12"
-          order="2"
-          order-lg="1"
         >
           <profile-about :about-data="technicalData" />
           <!--          <profile-suggested-pages :pages-data="profileData.suggestedPages" />-->
         </b-col>
         <b-col
-          order="1"
-          order-lg="2"
         >
           <profile-twitter-feed :twitter-feed="reviewsOfTechnical" />
         </b-col>
@@ -78,6 +74,12 @@ import ProfileTechnicalService from '@/safetech/views/profile-technical/profile-
 
 /* eslint-disable global-require */
 export default {
+  props: {
+    technicalId: {
+      type: Number,
+      default: null,
+    },
+  },
   components: {
     BRow,
     BCol,
@@ -108,18 +110,24 @@ export default {
   },
   methods: {
     async getTechnicalById() {
-      const data = await ProfileTechnicalService.getTechnicalById(this.$route.params.id)
+      const data = await ProfileTechnicalService.getTechnicalById(this.technicalId)
       this.technicalData = data.data
     },
     async getReviewsByTechnicalId() {
-      const data = await ProfileTechnicalService.getReviewsByTechnicalId(this.$route.params.id)
+      const data = await ProfileTechnicalService.getReviewsByTechnicalId(this.technicalId)
       this.reviewsOfTechnical = data.data
     },
     async getAverageScoreByTechnicalId() {
-      const data = await ProfileTechnicalService.getAverageScoreByTechnicalId(this.$route.params.id)
+      const data = await ProfileTechnicalService.getAverageScoreByTechnicalId(this.technicalId)
       this.technicalData = data.data
     },
   },
+  watch: {
+    async technicalId() {
+      await this.getReviewsByTechnicalId()
+      await this.getAverageScoreB
+    }
+  }
 }
 /* eslint-disable global-require */
 </script>
